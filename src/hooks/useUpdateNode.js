@@ -6,13 +6,17 @@ function useUpdateNode() {
   const { setNodes, setEdges } = useReactFlow();
 
   const handleSubmitNode = (data, currentNode) => {
+    // ReactFlow의 setNodes와 setEdges를 가져옴 ( 노드와 엣지 상태를 업데이트하는 함수 )
     if (currentNode.type === NodeTypes.Condition) {
+      // 전달받은 데이터에서 조건 ( condition ) 목록 추출
       const { conditions } = data;
 
+      // 조건 목록 중 target이 없는 조건을 추출
       const creatableNew = conditions.filter(
         (condition) => condition.target === undefined
       );
 
+      // 새로운 노드를 저장할 배열 초기화
       const newNode = [];
 
       creatableNew
