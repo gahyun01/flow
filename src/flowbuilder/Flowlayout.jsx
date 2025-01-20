@@ -22,6 +22,8 @@ const Flowlayout = (props) => {
         return "/icons/input.png";
       case NodeTypes.Condition: // NodeTypes가 condition인 경우
         return "/icons/condition.png";
+      case NodeTypes.End: // NodeTypes가 end인 경우
+        return "/icons/end.png";
       default: // 기본값 (이미지가 없는 경우)
         return "/icons/default.png";
     }
