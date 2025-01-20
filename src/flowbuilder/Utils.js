@@ -43,6 +43,12 @@ export const nodeTypeStage = [
   },
   {
     id: 3,
+    label: "Step",
+    type: "StepNode",
+    stepType: "email",
+  },
+  {
+    id: 4,
     label: "End the process",
     type: "EndNode",
     stepType: "email",

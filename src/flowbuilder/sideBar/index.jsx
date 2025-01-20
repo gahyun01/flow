@@ -316,23 +316,61 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                       <ErrorMessage errors={errors} name="description" />
                     </div>
 
-                    {/* 드롭다운 */}
-                    <div className="flex flex-col gap-[10px] items-center justify-center">
-                      {adminMenu.map((menu, index) => {
-                        const active = activeIdx === index + 1 ? true : false;
-                        return (
-                          <AdminMenu
-                            menuItem={menu.name}
-                            key={index}
-                            idx={menu.idx}
-                            activeIdx={activeIdx}
-                            active={active}
-                            setActiveIdx={setActiveIdx}
-                            subMenu={menu.subMenu}
+                    {/* 입력 필드 반복 렌더링 */}
+                    {fields.map((item, index) => (
+                      <div key={item.id} className="flex gap-x-3">
+                        {/* 키 입력 필드 */}
+                        <div className="space-y-2 pt-3">
+                          <label
+                            htmlFor={`key.${index}.value`}
+                            className="text-gray-900"
+                          >
+                            key {index + 1}:
+                          </label>
+                          <input
+                            id={`key.${index}.value`}
+                            type="text"
+                            {...register(`key.${index}.value`)}  // 키 값 등록
+                            className={`w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black`}
+                            placeholder="Write key here"
                           />
-                        );
-                      })}
-                    </div>
+                          {/* 'key.{index}.value' 필드와 관련된 오류 메시지를 표시 */}
+                          <ErrorMessage errors={errors} name={`key.${index}.value`} />
+                        </div>
+
+                        {/* 값 입력 필드 */}
+                        <div className="space-y-2 pt-3 relative mb-10">
+                          <label
+                            htmlFor={`value.${index}.value`}
+                            className="text-gray-900"
+                          >
+                            value:
+                          </label>
+                          {/* 'value.{index}.value' 필드에 대해 Controller를 사용하여 상태 제어 */}
+                          <input
+                            id={`value.${index}.value`}
+                            type="text"
+                            {...register(`value.${index}.value`)}  // 키 값 등록
+                            className={`w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black`}
+                            placeholder="Write value here"
+                          />
+                          {/* 'key.{index}.step' 필드와 관련된 오류 메시지를 표시 */}
+                          <ErrorMessage errors={errors} name={`key.${index}.step`} />
+
+                          {/* input 제거 버튼 */}
+                          <span
+                            onClick={() => remove(index)}
+                            className="text-red-700 py-1 cursor-pointer absolute right-0 top-full mt-0"
+                          >
+                            Remove
+                          </span>
+                          <ErrorMessage
+                            errors={errors}
+                            name={`key.${index}.step`}
+                          />
+                        </div>
+                      </div>
+                    ))}
 
                     {/* input 추가 및 저장 버튼 */}
                     <div className="flex gap-2 pt-3">
@@ -372,27 +410,22 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                       <ErrorMessage errors={errors} name="description" />
                     </div>
 
-                    <div className="space-y-2">
-                      <label htmlFor="" className="text-gray-900">
-                        Go to Step :
-                      </label>
-                      {/* 사용자로부터 'gotoStep'을 입력받는 텍스트 입력 필드 */}
-                      <input
-                        type="text"
-                        {...register(
-                          "gotoStep"
-                          //  {
-                          //   required: {
-                          //     value: true,
-                          //     message: "Step field is required",
-                          //   },
-                          // }
-                        )}
-                        className={`w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black`}
-                        placeholder="Title of the message"
-                      />
-                      {/* 'gotoStep' 필드에 대한 오류 메시지 출력 */}
-                      <ErrorMessage errors={errors} name="gotoStep" />
+                    {/* 드롭다운 */}
+                    <div className="flex flex-col gap-[10px] items-center justify-center">
+                      {adminMenu.map((menu, index) => {
+                        const active = activeIdx === index + 1 ? true : false;
+                        return (
+                          <AdminMenu
+                            menuItem={menu.name}
+                            key={index}
+                            idx={menu.idx}
+                            activeIdx={activeIdx}
+                            active={active}
+                            setActiveIdx={setActiveIdx}
+                            subMenu={menu.subMenu}
+                          />
+                        );
+                      })}
                     </div>
 
                     <Button type="submit">Save</Button>
