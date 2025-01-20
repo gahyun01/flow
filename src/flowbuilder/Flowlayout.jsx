@@ -1,4 +1,4 @@
-// Desc : FlowBuilder에서 사용되는 노드 컴포넌트 중 하나로, 노드의 레이아웃을 정의하고 삭제 버튼을 포함한 UI를 렌더링한다.
+// Desc : FlowBuilder에서 사용되는 노드 컴포넌트 중 하나로, 노드의 레이아웃을 정의하고 삭제 버튼을 포함한 UI를 렌더링
 
 // 클라이언트에서만 실행되는 React 컴포넌트임을 명시
 // "use client";
@@ -7,10 +7,25 @@ import useNodeDelete from "@/hooks/useNodeDelete";
 import LabelRenderer from "./NodeHelper/LabelRenderer";
 import { TrashIcon } from "@heroicons/react/24/outline";  // 삭제 아이콘
 import { NodeTypes } from "./Utils";  // 노드의 유형을 정의한 유틸리티 상수
+import Image from "next/image";
 
 const Flowlayout = (props) => {
   const { handleDelete } = useNodeDelete();   // useNodeDelete 커스텀 훅을 사용하여 handleDelete 함수를 가져옴
   const { data, selected } = props.nodeData;  // props에서 전달된 노드 데이터와 선택 상태를 구조 분해 할당
+
+  // 아이콘 동적 렌더링
+  const getImageSrc = (type) => {
+    switch (type) {
+      case NodeTypes.startNode: // NodeTypes가 startNode인 경우
+        return "/icons/start.png";
+      case NodeTypes.InputNode: // NodeTypes가 inputNode인 경우
+        return "/icons/input.png";
+      case NodeTypes.Condition: // NodeTypes가 condition인 경우
+        return "/icons/condition.png";
+      default: // 기본값 (이미지가 없는 경우)
+        return "/icons/default.png";
+    }
+  };
 
   // PopoverHandler 컴포넌트: 삭제 버튼을 포함한 UI를 렌더링
   const PopoverHandler = () => {
@@ -51,6 +66,13 @@ const Flowlayout = (props) => {
         }`}
       >
         {/* LabelRenderer 컴포넌트와 PopoverHandler 컴포넌트 렌더링 */}
+        <Image
+        src={getImageSrc(props.nodeData.type)} // 동적으로 이미지 경로 결정
+        alt={props.nodeData.type}
+        width={32}
+        height={32}
+        className="w-8 h-8 ml-4"
+      />
         <LabelRenderer props={props} data={data} /> {/* 노드 라벨 표시 */}
         <PopoverHandler />  {/* 삭제 버튼 포함 UI */}
       </div>
