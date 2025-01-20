@@ -57,6 +57,14 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
   // 상태 초기화
   const [defaultValues, setdefaultValues] = useState(initialDefault);
   const [inputNodes, setInputNodes] = useState([]);
+  const [activeIdx, setActiveIdx] = useState();
+
+  // 드롭다운 더미데이터
+  const adminMenu = [
+    { idx: 1, name: "Sample 1", subMenu: [{ name: "Sample 1-1" }, { name: "Sample 1-2" }] },
+    { idx: 2, name: "Sample 2", subMenu: [{ name: "Sample 2-1" }] },
+    { idx: 3, name: "Sample 3", subMenu: [] },
+  ];
 
   const {
     handleSubmit,
@@ -132,6 +140,38 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
       console("updatedInput", updatedInput);
       return updatedInput;
     });
+  };
+
+  const AdminMenu = ({ menuItem, idx, activeIdx, active, setActiveIdx, subMenu }) => {
+    return (
+      <>
+        <div
+          className=" w-[300px] h-[65px] bg-[#FCFCFC] border-[1px] border-black rounded-lg flex justify-center items-center cursor-pointer hover:bg-blue-gray-50 transition-all"
+          onClick={() => {
+            setActiveIdx(idx);  
+          }}
+        >
+          {menuItem}
+        </div>
+        <div
+          className={`${active ? "visibile" : "invisible"} ${
+            active && subMenu.length > 0 ? "h-[100px]" : "h-0"
+          } transition-all duration-300`}
+        >
+          {active &&
+            subMenu.map((submenu, index) => {
+              return (
+                <div
+                  key={index}
+                  className="w-[300px] h-[50px] bg-white flex justify-center items-center cursor-pointer hover:bg-blue-gray-50 transition-all"
+                >
+                  {submenu.name}
+                </div>
+              );
+            })}
+        </div>
+      </>
+    );
   };
    
 
@@ -276,61 +316,23 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                       <ErrorMessage errors={errors} name="description" />
                     </div>
 
-                    {/* 입력 필드 반복 렌더링 */}
-                    {fields.map((item, index) => (
-                      <div key={item.id} className="flex gap-x-3">
-                        {/* 키 입력 필드 */}
-                        <div className="space-y-2 pt-3">
-                          <label
-                            htmlFor={`key.${index}.value`}
-                            className="text-gray-900"
-                          >
-                            key {index + 1}:
-                          </label>
-                          <input
-                            id={`key.${index}.value`}
-                            type="text"
-                            {...register(`key.${index}.value`)}  // 키 값 등록
-                            className={`w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black`}
-                            placeholder="Write key here"
+                    {/* 드롭다운 */}
+                    <div className="flex flex-col gap-[10px] items-center justify-center">
+                      {adminMenu.map((menu, index) => {
+                        const active = activeIdx === index + 1 ? true : false;
+                        return (
+                          <AdminMenu
+                            menuItem={menu.name}
+                            key={index}
+                            idx={menu.idx}
+                            activeIdx={activeIdx}
+                            active={active}
+                            setActiveIdx={setActiveIdx}
+                            subMenu={menu.subMenu}
                           />
-                          {/* 'key.{index}.value' 필드와 관련된 오류 메시지를 표시 */}
-                          <ErrorMessage errors={errors} name={`key.${index}.value`} />
-                        </div>
-
-                        {/* 값 입력 필드 */}
-                        <div className="space-y-2 pt-3 relative mb-10">
-                          <label
-                            htmlFor={`value.${index}.value`}
-                            className="text-gray-900"
-                          >
-                            value:
-                          </label>
-                          {/* 'value.{index}.value' 필드에 대해 Controller를 사용하여 상태 제어 */}
-                          <input
-                            id={`value.${index}.value`}
-                            type="text"
-                            {...register(`value.${index}.value`)}  // 키 값 등록
-                            className={`w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black`}
-                            placeholder="Write value here"
-                          />
-                          {/* 'key.{index}.step' 필드와 관련된 오류 메시지를 표시 */}
-                          <ErrorMessage errors={errors} name={`key.${index}.step`} />
-
-                          {/* input 제거 버튼 */}
-                          <span
-                            onClick={() => remove(index)}
-                            className="text-red-700 py-1 cursor-pointer absolute right-0 top-full mt-0"
-                          >
-                            Remove
-                          </span>
-                          <ErrorMessage
-                            errors={errors}
-                            name={`key.${index}.step`}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                        );
+                      })}
+                    </div>
 
                     {/* input 추가 및 저장 버튼 */}
                     <div className="flex gap-2 pt-3">

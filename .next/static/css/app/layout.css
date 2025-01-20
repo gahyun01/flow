@@ -571,6 +571,9 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+.visible {
+  visibility: visible;
+}
 .invisible {
   visibility: hidden;
 }
@@ -596,9 +599,6 @@ video {
 .right-0 {
   right: 0px;
 }
-.top-full {
-  top: 100%;
-}
 .z-10 {
   z-index: 10;
 }
@@ -612,9 +612,6 @@ video {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
 }
-.mb-10 {
-  margin-bottom: 2.5rem;
-}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -623,9 +620,6 @@ video {
 }
 .mr-4 {
   margin-right: 1rem;
-}
-.mt-0 {
-  margin-top: 0px;
 }
 .mt-1 {
   margin-top: 0.25rem;
@@ -651,6 +645,9 @@ video {
 .hidden {
   display: none;
 }
+.h-0 {
+  height: 0px;
+}
 .h-12 {
   height: 3rem;
 }
@@ -666,11 +663,20 @@ video {
 .h-8 {
   height: 2rem;
 }
+.h-\[100px\] {
+  height: 100px;
+}
 .h-\[43\] {
   height: 43;
 }
 .h-\[48px\] {
   height: 48px;
+}
+.h-\[50px\] {
+  height: 50px;
+}
+.h-\[65px\] {
+  height: 65px;
 }
 .h-\[75px\] {
   height: 75px;
@@ -704,6 +710,9 @@ video {
 }
 .w-\[200px\] {
   width: 200px;
+}
+.w-\[300px\] {
+  width: 300px;
 }
 .w-\[350px\] {
   width: 350px;
@@ -765,6 +774,9 @@ video {
 .flex-row {
   flex-direction: row;
 }
+.flex-col {
+  flex-direction: column;
+}
 .flex-wrap {
   flex-wrap: wrap;
 }
@@ -791,6 +803,9 @@ video {
 }
 .gap-4 {
   gap: 1rem;
+}
+.gap-\[10px\] {
+  gap: 10px;
 }
 .gap-\[17px\] {
   gap: 17px;
@@ -867,6 +882,9 @@ video {
 .border-0 {
   border-width: 0px;
 }
+.border-\[1px\] {
+  border-width: 1px;
+}
 .border-b {
   border-bottom-width: 1px;
 }
@@ -889,6 +907,10 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(96 57 219 / var(--tw-border-opacity, 1));
 }
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
+}
 .border-gray-200 {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
@@ -910,6 +932,10 @@ video {
 }
 .border-opacity-20 {
   --tw-border-opacity: 0.2;
+}
+.bg-\[\#FCFCFC\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 252 252 / var(--tw-bg-opacity, 1));
 }
 .bg-\[\#ec4343\] {
   --tw-bg-opacity: 1;
