@@ -58,6 +58,8 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
   const [defaultValues, setdefaultValues] = useState(initialDefault);
   const [inputNodes, setInputNodes] = useState([]);
   const [activeIdx, setActiveIdx] = useState();
+  const [selectedSubMenu, setSelectedSubMenu] = useState(null);
+  const [selectedSubItem, setSelectedSubItem] = useState("");
 
   // 드롭다운 더미데이터
   const adminMenu = [
@@ -72,10 +74,11 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
     formState: { errors },
     register,
     reset,
+    setValue,  // 🔹 setValue 추가
   } = useForm({
     defaultValues,  // 기본값 설정
     mode: "onChange",  // 변경 시마다 폼 상태를 업데이트
-  });
+  }); 
 
   const { handleSubmitNode } = useUpdateNode();  // 노드 업데이트 훅
   const { handleSubmitEdge } = useUpdateEdge();  // 엣지 업데이트 훅
@@ -214,6 +217,13 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
   useEffect(() => {
     reset(defaultValues);  // 폼을 defaultValues로 리셋
   }, [reset, defaultValues]);
+
+    // step
+    useEffect(() => {
+      if (selectedSubItem) {
+        setValue("description", selectedSubItem); // 선택한 하위 요소를 입력 필드에 반영
+      }
+    }, [selectedSubItem, setValue]);
 
   // 조건 필드 추가, 제거, 수정 등을 처리하는 훅
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
@@ -391,46 +401,62 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                   <>
                     {/* 단계 노드 */}
                     <div className="space-y-2">
-                      <label htmlFor="" className="text-gray-900">
-                        Description :
-                      </label>
-                      {/* 사용자로부터 'description'을 입력받는 텍스트 입력 필드 */}
+                      <label htmlFor="" className="text-gray-900">Description :</label>
                       <input
                         type="text"
                         {...register("description", {
-                          required: {
-                            value: true,  // 필수 입력값
-                            message: "Description field is required", // 필수 입력 오류 메시지
-                          },
+                          required: { value: true, message: "Description field is required" }
                         })}
-                        className={`w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black`}
+                        className="w-full px-6 py-4 mt-5 bg-white border border-gray-200 rounded-md outline-none hover:border-violet-400 focus:outline-none text-black"
                         placeholder="Write description here"
                       />
-                      {/* 'description' 필드에 대한 오류 메시지 출력 */}
                       <ErrorMessage errors={errors} name="description" />
                     </div>
 
                     {/* 드롭다운 */}
                     <div className="flex flex-col gap-[10px] items-center justify-center">
                       {adminMenu.map((menu, index) => {
-                        const active = activeIdx === index + 1 ? true : false;
+                        const active = activeIdx === index + 1 ? true : false; // Check if the current menu is active
                         return (
-                          <AdminMenu
-                            menuItem={menu.name}
-                            key={index}
-                            idx={menu.idx}
-                            activeIdx={activeIdx}
-                            active={active}
-                            setActiveIdx={setActiveIdx}
-                            subMenu={menu.subMenu}
-                          />
+                          <div key={index} className="flex flex-col gap-[10px] items-center justify-center w-full">
+                            {/* Main menu button */}
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setActiveIdx(activeIdx === index + 1 ? null : index + 1); // Toggle active state
+                              }}
+                              className={`w-[300px] h-[65px] p-2 border border-black rounded-md ${active ? 'bg-gray-300' : 'bg-white'} hover:bg-[#3a3a78] hover:text-white hover:border-black`}
+                            >
+                              {menu.name}
+                            </button>
+
+                            {/* Submenu items (shown only if the current menu is active) */}
+                            {active && (
+                              <div className="ml-4 mt-2 space-y-1">
+                                {menu.subMenu.map((sub, subIndex) => (
+                                  <button
+                                    key={subIndex}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setSelectedSubItem(sub.name); // Set the selected submenu item
+                                    }}
+                                    className="block w-[250px] p-2 text-center border rounded-md bg-white hover:bg-gray-200 hover:border-black"
+                                  >
+                                    {sub.name}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         );
                       })}
                     </div>
+
                     <div className="fixed bottom-5">
-                      <Button type="submit">Save</Button>
+                      <button type="submit" className="p-2 bg-black text-white rounded-md">
+                        Save
+                      </button>
                     </div>
-                    
                   </>
                 ) : (
                   <>
