@@ -23,17 +23,19 @@ function useUpdateNode() {
 
       const newNode = [];// 새로 추가될 노드를 저장할 배열
 
-      // 조건 중에서 step ID가 없는 항목에 대해 새 노드 생성
+      // 조건 중에서 step ID가 없는 항목에 대해
       creatableNew
         .filter((item) => !item.step.id)  // step ID가 없는 조건만 필터링
         .forEach((node) => {
           // 새로운 노드를 생성하여 newNode 배열에 추가
-          newNode.push(
-            addNewNode(
-              { type: NodeTypes.StepNode, label: "Input" }, // StepNode 타입으로 노드 생성
-              currentNode // 현재 노드를 부모 노드로 설정
-            )
-          );
+          // newNode.push(
+          //   addNewNode(
+          //     { type: NodeTypes.StepNode, label: "Input" }, // StepNode 타입으로 노드 생성
+          //     currentNode // 현재 노드를 부모 노드로 설정
+          //   )
+          // );
+
+          alert("노드를 생성해주세요.")
         });
 
       // 기존 노드 상태 업데이트

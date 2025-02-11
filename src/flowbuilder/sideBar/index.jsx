@@ -63,7 +63,7 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
   const adminMenu = [
     { idx: 1, name: "Sample 1", subMenu: [{ name: "Sample 1-1" }, { name: "Sample 1-2" }] },
     { idx: 2, name: "Sample 2", subMenu: [{ name: "Sample 2-1" }] },
-    { idx: 3, name: "Sample 3", subMenu: [] },
+    { idx: 3, name: "FCTI", subMenu: [{ name: "get email info" }, { name: "delete table" }, { name: "get ip info" }, {name: "get domain info" }, {name: "get domain info" }, {name: "get file info" }] },
   ];
 
   const {
@@ -427,8 +427,10 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                         );
                       })}
                     </div>
-
-                    <Button type="submit">Save</Button>
+                    <div className="fixed bottom-5">
+                      <Button type="submit">Save</Button>
+                    </div>
+                    
                   </>
                 ) : (
                   <>
