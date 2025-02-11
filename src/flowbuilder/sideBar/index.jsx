@@ -419,18 +419,18 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                         const active = activeIdx === index + 1 ? true : false; // Check if the current menu is active
                         return (
                           <div key={index} className="flex flex-col gap-[10px] items-center justify-center w-full">
-                            {/* Main menu button */}
+                            {/* Main menu */}
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
-                                setActiveIdx(activeIdx === index + 1 ? null : index + 1); // Toggle active state
+                                setActiveIdx(activeIdx === index + 1 ? null : index + 1);
                               }}
                               className={`w-[300px] h-[65px] p-2 border border-black rounded-md ${active ? 'bg-gray-300' : 'bg-white'} hover:bg-[#3a3a78] hover:text-white hover:border-black`}
                             >
                               {menu.name}
                             </button>
 
-                            {/* Submenu items (shown only if the current menu is active) */}
+                            {/* 하위 요소 */}
                             {active && (
                               <div className="ml-4 mt-2 space-y-1">
                                 {menu.subMenu.map((sub, subIndex) => (
@@ -438,7 +438,7 @@ const SideBar = ({ sideBarOpen, currentSideData, setOpenSidebar }) => {
                                     key={subIndex}
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      setSelectedSubItem(sub.name); // Set the selected submenu item
+                                      setSelectedSubItem(sub.name);
                                     }}
                                     className="block w-[250px] p-2 text-center border rounded-md bg-white hover:bg-gray-200 hover:border-black"
                                   >
